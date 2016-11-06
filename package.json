@@ -1,0 +1,26 @@
+{
+  "name": "telegram_bot",
+  "version": "0.0.1",
+  "description": "Telegram aviasearch bot. Searching by aviasales API.",
+  "main": "app.js",
+  "scripts": {
+    "test": "node_modules/.bin/mocha --recursive"
+  },
+  "keywords": [
+    "telegram",
+    "bot",
+    "aviasales"
+  ],
+  "author": "Bogdan Rudenko",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.14.0",
+    "chai": "^3.5.0",
+    "lodash": "^4.16.4",
+    "node-telegram-bot-api": "^0.23.3"
+  },
+  "devDependencies": {
+    "eslint": "^3.8.0",
+    "mocha": "^3.1.2"
+  }
+}

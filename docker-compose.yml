@@ -1,0 +1,9 @@
+web:
+  build: .
+  volumes:
+    - .:/apps/avia_bot
+    - ~/.ssh:/root/.ssh
+    - ~/.bash_history:/root/.bash_history
+  ports:
+    - 3000:3000
+  command: ./start.sh
