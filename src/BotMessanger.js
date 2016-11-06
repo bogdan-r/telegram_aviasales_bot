@@ -1,15 +1,18 @@
-const Commands = require('../app/Commands');
+const handlers = require('./handlers');
 const bot = require('./servises/TelegramBot');
+const parseCommands = require('./lib/utils/parseCommands');
 
 class BotMessanger {
   constructor() {
     this.bot = bot;
     this.bot.on('text', this.handleCommands.bind(this));
-    this.commands = new Commands(); 
   }
 
-  handleCommands(msg) {
-    
+  handleCommands(query) {
+    const command = parseCommands(query);
+    handlers[`${command}Handler`](query);
   }
 
 }
+
+module.exports = BotMessanger;
