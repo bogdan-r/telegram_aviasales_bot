@@ -1,5 +1,5 @@
 const axios = require('axios');
-const axiosConfig = require('../../lib/config/axiosAviasalesConfig');
+const axiosConfig = require('../lib/config/axiosAviasalesConfig');
 
 class AviasalesProvider {
   constructor(token) {

@@ -1,2 +1,2 @@
-const Bot = require('./app/BotMessanger');
+const Bot = require('./src/BotMessanger');
 const bot = new Bot();
