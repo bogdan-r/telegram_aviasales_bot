@@ -15,8 +15,8 @@ module.exports = function(query) {
   const OFFSET_ORIGIN_FLY_POINT = 3;
   const dateMatches = query.match(dateRegexp);
   const date = _.isNull(dateMatches) ? dateMatches : dateMatches[0];
-  const indexOrigin = query.indexOf('из');
-  const indexDestination = query.indexOf('в');
+  const indexOrigin = query.indexOf('из ');
+  const indexDestination = query.indexOf('в ');
 
   const isFullFlyExist = indexOrigin >= 0 && indexDestination >= 0;
   const isDirectFlyOrder = isFullFlyExist && (indexOrigin < indexDestination);   

@@ -2,3 +2,5 @@
 start.sh
 /typings
 .vscode
+.idea
+avia_search_bot.iml
