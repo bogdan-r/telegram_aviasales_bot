@@ -10,7 +10,9 @@ class BotMessanger {
 
   handleCommands(query) {
     const command = parseCommands(query.text);
-    handlers[`${command}Handler`](query, bot);
+    if (handlers[`${command}Handler`]) {
+      handlers[`${command}Handler`](query, bot);
+    }
   }
 
 }

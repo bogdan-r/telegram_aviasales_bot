@@ -10,7 +10,7 @@ const query = `${queryPrefix} ${origin} ${destination} ${dateFly}`;
 const queryRevert = `${queryPrefix} ${destination} ${origin} ${dateFly}`;
 const queryWithoutDate = `${queryPrefix} ${origin} ${destination} `;
 const queryWithoutOrigin = `${queryPrefix} ${destination} ${dateFly}`;
-const queryWithoutDestination = `${queryPrefix} ${origin} ${dateFly}`;
+const queryWithoutDestination = `${queryPrefix} ${origin}`;
 
 describe('Utils', () => {
   describe('parseFlyQuery', () => {
@@ -76,7 +76,7 @@ describe('Utils', () => {
       assert.deepEqual({
         origin: 'Санкт-Перербурга',
         destination: null,
-        date: '24.10'
+        date: null
       }, {
         origin: queryResult.origin,
         destination: queryResult.destination,
