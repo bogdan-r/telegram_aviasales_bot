@@ -1,5 +1,4 @@
 const _ = require('lodash');
-
 const dateRegexp = /\d{2}.\d{2}(.\d{4})?/;
 
 function getFlyPointByEndQuery(query, date, indexFlyPoint) {

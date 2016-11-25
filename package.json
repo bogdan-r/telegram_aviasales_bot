@@ -14,8 +14,10 @@
   "author": "Bogdan Rudenko",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.1.2",
     "axios": "^0.14.0",
     "chai": "^3.5.0",
+    "co": "^4.6.0",
     "lodash": "^4.16.4",
     "node-telegram-bot-api": "^0.23.3"
   },
