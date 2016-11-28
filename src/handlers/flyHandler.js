@@ -13,7 +13,10 @@ function askQuestion(message, bot, askMessage) {
         }
       )}).then((sended) => {
         bot.onReplyToMessage(sended.chat.id, sended.message_id, (replyMessage) => {
-          if(replyMessage.text.trim() == '') reject();
+          if(replyMessage.text.trim() == '') {
+            reject();
+            return;
+          }
           resolve(replyMessage.text);
         });
       }).catch(() => {

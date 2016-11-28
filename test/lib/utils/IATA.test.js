@@ -33,6 +33,14 @@ describe('Utils', () => {
         }, IDATACases);
       });
 
+      it('should find code with wrong cases', () => {
+        const IATAEmptyCase = IATA.findCode('Санкт-Петербург', '');
+        const IATAWrongCase = IATA.findCode('Санкт-Петербург', 'wrong case');
+
+        assert.equal(IATAEmptyCase, 'LED');
+        assert.equal(IATAWrongCase, 'LED');
+      });
+
       it('should return undefined with null param', () => {
         assert.equal(IATA.findCode(null), undefined);
       });
@@ -65,6 +73,14 @@ describe('Utils', () => {
 
       it('should return undefined with null param', () => {
         assert.equal(IATA.findCity(null), undefined);
+      });
+
+      it('should find city with wrong cases', () => {
+        const cityWithEmptyCase = IATA.findCity('LED', '');
+        const cityWithWrongCase = IATA.findCity('LED', 'wrong case');
+
+        assert.equal(cityWithEmptyCase, 'Санкт-Петербург');
+        assert.equal(cityWithWrongCase, 'Санкт-Петербург');
       });
     });
   });

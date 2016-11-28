@@ -3,11 +3,13 @@ const cases = require('../fixtures/cases.json'); //TODO перенести в mo
 module.exports = {
   findCode(city = '', cityCase) {
     if (!city) return;
+    const isExistCityCase = cityCase && typeof cityCase === 'string' && cityCase.length > 0;
     let filteredCity = city.toLowerCase().replace('-', ' ');
 
     let resultCity;
     for (let key in cases) {
-      const caseName = cityCase ? cases[key].cases[cityCase] : cases[key].name;
+      const currentCase = cases[key].cases[cityCase];
+      const caseName = isExistCityCase && currentCase ? currentCase : cases[key].name;
       const loopCity = caseName.toLowerCase().replace('-', ' ');
       if (loopCity === filteredCity) {
         resultCity = key;
@@ -19,10 +21,8 @@ module.exports = {
 
   findCity(code = '', codeCase) {
     if (!code) return;
-    if(codeCase) {
-      return cases[code].cases[codeCase];
-    } else {
-      return cases[code].name;
-    }
+    const isExistCodeCase = codeCase && typeof codeCase === 'string' && codeCase.length > 0;
+    const caseCity = cases[code].cases[codeCase];
+    return isExistCodeCase && caseCity ? caseCity : cases[code].name;
   },
 };
