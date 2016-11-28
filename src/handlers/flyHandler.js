@@ -1,36 +1,52 @@
-import co from 'co';
+const bluebird = require('bluebird');
 const parseFlyQuery = require('../lib/utils/parseFlyQuery');
 const IATA = require('../lib/utils/IATA');
 const AviasalesProvider = require('../providers/AviasalesProvider');
 const ERROR_MESSAGE = 'Что то пошло не так, попробуйте еще раз';
 
 function askQuestion(message, bot, askMessage) {
-  bot.sendMessage(message.from.id, askMessage, {
-    reply_markup: JSON.stringify(
-      {
-        force_reply: true
-      }
-    )}).then((sended) => {
-      bot.onReplyToMessage(sended.chat.id, sended.message_id, (replyMessage) => {
-        if(replyMessage.trim() == '') return Promise.reject();
-        return Promise.resolve(replyMessage);
+  return new Promise((resolve, reject) => {
+    bot.sendMessage(message.from.id, askMessage, {
+      reply_markup: JSON.stringify(
+        {
+          force_reply: true
+        }
+      )}).then((sended) => {
+        bot.onReplyToMessage(sended.chat.id, sended.message_id, (replyMessage) => {
+          if(replyMessage.text.trim() == '') reject();
+          resolve(replyMessage.text);
+        });
+      }).catch(() => {
+        reject();
       });
-    }).catch(() => {
-      return Promise.reject();
-    });
+  });
 }
 
 function flyHandler(message, bot) {
   const flyParams = parseFlyQuery(message.text);
+  const questions = [];
   const queryParams = {
     origin: IATA.findCode(flyParams.origin, 'ro'),
     destination: IATA.findCode(flyParams.destination, 'vi'),
   };
 
+  if (!queryParams.origin) questions.push(askQuestion.bind(this, message, bot, 'Откуда летим'));
+  if (!queryParams.destination) questions.push(askQuestion.bind(this, message, bot, 'Куда летим'));
+
+  bluebird.map(questions, (questionFn) => {
+    return questionFn();
+  }, { concurrency: 1 }).then((answers) => {
+    if (answers.some((answer) => answer === '')) {
+      bot.sendMessage(message.from.id, ERROR_MESSAGE);
+    }
+  }).catch((err) => {
+    bot.sendMessage(message.from.id, ERROR_MESSAGE);
+  });
+/*
   co(function* () {
     try {
       if (!queryParams.origin) yield askQuestion(message, bot, 'Откуда летим');
-      if (!queryParams.destination) yield askQuestion(message, bot, 'Откуда летим');
+      if (!queryParams.destination) yield askQuestion(message, bot, 'Куда летим');
     } catch (err) {
       bot.sendMessage(message.from.id, ERROR_MESSAGE);
     }
@@ -47,6 +63,7 @@ function flyHandler(message, bot) {
   }).catch(() => {
     bot.sendMessage(message.from.id, ERROR_MESSAGE);
   });
+*/
 
 }
 
