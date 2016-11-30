@@ -4,7 +4,7 @@ const IATA = require('../lib/utils/IATA');
 const AviasalesProvider = require('../providers/AviasalesProvider');
 const ERROR_MESSAGE = 'Что то пошло не так, попробуйте еще раз';
 
-function askQuestion(message, bot, askMessage) {
+function askQuestion(message, bot, field, askMessage) {
   return new Promise((resolve, reject) => {
     bot.sendMessage(message.from.id, askMessage, {
       reply_markup: JSON.stringify(
@@ -17,7 +17,7 @@ function askQuestion(message, bot, askMessage) {
             reject();
             return;
           }
-          resolve(replyMessage.text);
+          resolve({text: replyMessage.text, field: field});
         });
       }).catch(() => {
         reject();
@@ -33,41 +33,38 @@ function flyHandler(message, bot) {
     destination: IATA.findCode(flyParams.destination, 'vi'),
   };
 
-  if (!queryParams.origin) questions.push(askQuestion.bind(this, message, bot, 'Откуда летим'));
-  if (!queryParams.destination) questions.push(askQuestion.bind(this, message, bot, 'Куда летим'));
+  if (!queryParams.origin) questions.push(askQuestion.bind(this, message, bot, 'origin', 'Откуда летим'));
+  if (!queryParams.destination) questions.push(askQuestion.bind(this, message, bot, 'destination', 'Куда летим'));
 
   bluebird.map(questions, (questionFn) => {
     return questionFn();
   }, { concurrency: 1 }).then((answers) => {
-    if (answers.some((answer) => answer === '')) {
-      bot.sendMessage(message.from.id, ERROR_MESSAGE);
+    if(answers.length) {
+      for(let i = 0; i < answers.length; i++) {
+        let text = answers[i].text;
+        let field = answers[i].field;
+        if(text == '') {
+          throw new Error();
+        } else {
+          queryParams[field] = IATA.findCode(text);
+          if (!queryParams[field]) throw new Error();
+        }
+      }
     }
-  }).catch((err) => {
-    bot.sendMessage(message.from.id, ERROR_MESSAGE);
-  });
-/*
-  co(function* () {
-    try {
-      if (!queryParams.origin) yield askQuestion(message, bot, 'Откуда летим');
-      if (!queryParams.destination) yield askQuestion(message, bot, 'Куда летим');
-    } catch (err) {
-      bot.sendMessage(message.from.id, ERROR_MESSAGE);
-    }
-  }).then(() => {
     AviasalesProvider.pricesLatest(queryParams).then((res) => {
       bot.sendMessage(message.from.id,
-        `Вылет из ${IATA.findCity(res.data.data[0].origin, 'ro')} ${IATA.findCity(res.data.data[0].destination, 'vi')} 
-        Стоимость: ${res.data.data[0].value} рублей
-        Дата вылета: ${res.data.data[0].depart_date}
-        Дата прилета: ${res.data.data[0].return_date}`
+        `
+Вылет из ${IATA.findCity(res.data.data[0].origin, 'ro')} ${IATA.findCity(res.data.data[0].destination, 'vi')} 
+Стоимость: ${res.data.data[0].value} рублей
+Дата вылета: ${res.data.data[0].depart_date}
+Дата прилета: ${res.data.data[0].return_date}
+`
       );
     });
 
   }).catch(() => {
     bot.sendMessage(message.from.id, ERROR_MESSAGE);
   });
-*/
-
 }
 
 module.exports = flyHandler;

@@ -1,4 +1,3 @@
-const commands = require('../constants/commands');
 module.exports = {
   start: 
 `Бот предназначен для поиска по api сайта aviasales.ru.
