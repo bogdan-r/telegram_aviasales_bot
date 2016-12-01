@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   start: 
 `Бот предназначен для поиска по api сайта aviasales.ru.
 

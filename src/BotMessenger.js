@@ -1,8 +1,8 @@
-const handlers = require('./handlers');
-const bot = require('./servises/TelegramBot');
-const parseCommands = require('./lib/utils/parseCommands');
+import handlers from './handlers';
+import bot from './servises/TelegramBot';
+import parseCommands from './lib/utils/parseCommands';
 
-class BotMessanger {
+export default class BotMessenger {
   constructor() {
     this.bot = bot;
     this.bot.on('text', this.handleCommands.bind(this));
@@ -16,5 +16,3 @@ class BotMessanger {
   }
 
 }
-
-module.exports = BotMessanger;

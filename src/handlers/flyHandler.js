@@ -1,7 +1,8 @@
-const bluebird = require('bluebird');
-const parseFlyQuery = require('../lib/utils/parseFlyQuery');
-const IATA = require('../lib/utils/IATA');
-const AviasalesProvider = require('../providers/AviasalesProvider');
+import bluebird from 'bluebird';
+import parseFlyQuery from '../lib/utils/parseFlyQuery';
+import IATA from '../lib/utils/IATA';
+import AviasalesProvider from '../providers/AviasalesProvider';
+
 const ERROR_MESSAGE = 'Что то пошло не так, попробуйте еще раз';
 
 function askQuestion(message, bot, field, askMessage) {
@@ -25,7 +26,7 @@ function askQuestion(message, bot, field, askMessage) {
   });
 }
 
-function flyHandler(message, bot) {
+export default function flyHandler(message, bot) {
   const flyParams = parseFlyQuery(message.text);
   const questions = [];
   const queryParams = {
@@ -66,5 +67,3 @@ function flyHandler(message, bot) {
     bot.sendMessage(message.from.id, ERROR_MESSAGE);
   });
 }
-
-module.exports = flyHandler;

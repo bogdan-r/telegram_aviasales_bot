@@ -1,4 +1,4 @@
-const chai = require('chai');
+import chai from 'chai';
 const assert = chai.assert;
 
 describe('Providers', () => {

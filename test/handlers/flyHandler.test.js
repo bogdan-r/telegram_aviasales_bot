@@ -1,5 +1,5 @@
-const chai = require('chai');
-const handlers = require('../../src/handlers');
+import chai from 'chai';
+import handlers from '../../src/handlers';
 
 const assert = chai.assert;
 

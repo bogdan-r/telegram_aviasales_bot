@@ -1,6 +1,7 @@
-const chai = require('chai');
+import chai from 'chai';
+import IATA from '../../../src/lib/utils/IATA';
 const assert = chai.assert;
-const IATA = require('../../../src/lib/utils/IATA');
+
 
 describe('Utils', () => {
   describe('IATA', () => {

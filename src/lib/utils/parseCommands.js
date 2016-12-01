@@ -1,6 +1,7 @@
-const _ = require('lodash');
-const commands = require('../config/commands');
+import _ from 'lodash';
+import commands from '../config/commands';
 
-module.exports = function parseCommands(query) {
+
+export default function parseCommands(query) {
   return _.findKey(commands, (command) => query.search(command) === 0);
 };
