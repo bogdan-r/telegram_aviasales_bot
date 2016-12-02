@@ -1,6 +1,6 @@
-import chai from 'chai';
-import parseFlyQuery from '../../../src/lib/utils/parseFlyQuery';
+const chai = require('chai');
 const assert = chai.assert;
+const parseFlyQuery = require('../../../src/lib/utils/parseFlyQuery');
 
 const queryPrefix = '/улететь';
 const origin = 'из Санкт-Перербурга';

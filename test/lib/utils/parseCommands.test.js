@@ -1,6 +1,6 @@
-import chai from 'chai';
-import parseCommands from '../../../src/lib/utils/parseCommands';
+const chai = require('chai');
 const assert = chai.assert;
+const parseCommands = require('../../../src/lib/utils/parseCommands');
 
 describe('Utils', () => {
   describe('parseCommands', () => {

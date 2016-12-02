@@ -1,5 +1,4 @@
-import flyHandler from './flyHandler';
-import helpHandler from './helpHandler';
+const flyHandler = require('./flyHandler');
 
 module.exports = {
   flyHandler,

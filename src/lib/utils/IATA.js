@@ -1,6 +1,6 @@
-import cases from '../fixtures/cases.json';  //TODO перенести в mongodb
+const cases = require('../fixtures/cases.json'); //TODO перенести в mongodb
 
-export default {
+module.exports = {
   findCode(city = '', cityCase) {
     if (!city) return;
     const isExistCityCase = cityCase && typeof cityCase === 'string' && cityCase.length > 0;

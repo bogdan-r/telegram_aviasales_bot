@@ -1,5 +1,4 @@
-import _ from 'lodash';
-
+const _ = require('lodash');
 const dateRegexp = /\d{2}.\d{2}(.\d{4})?/;
 
 function getFlyPointByEndQuery(query, date, indexFlyPoint) {
@@ -33,7 +32,8 @@ module.exports = function(query) {
   } else if (indexDestination < 0) {
     origin = getFlyPointByEndQuery(query, date, indexOrigin + OFFSET_ORIGIN_FLY_POINT).trim();
   }
-  
+
+
   return {
     origin,
     destination,

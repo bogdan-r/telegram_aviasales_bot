@@ -1,6 +1,5 @@
-import axios from 'axios';
-import axiosConfig from '../lib/config/axiosAviasalesConfig';
-
+const axios = require('axios');
+const axiosConfig = require('../lib/config/axiosAviasalesConfig');
 const token = process.env.AVIASALES_TOKEN;
 
 class AviasalesProvider {
@@ -22,4 +21,4 @@ class AviasalesProvider {
   }
 }
 
-export default new AviasalesProvider(token);
+module.exports = new AviasalesProvider(token);
