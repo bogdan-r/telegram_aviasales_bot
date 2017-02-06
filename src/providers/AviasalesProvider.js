@@ -10,6 +10,7 @@ class AviasalesProvider {
 
   pricesLatest(params) {
     return this.request.get('prices/latest', {
+      one_way: true,
       params: params
     });
   }

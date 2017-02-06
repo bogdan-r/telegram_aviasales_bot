@@ -1,29 +1,9 @@
 const bluebird = require('bluebird');
 const parseFlyQuery = require('../lib/utils/parseFlyQuery');
 const IATA = require('../lib/utils/IATA');
+const botAskQuestion = require('../lib/utils/botAskQuestion');
 const AviasalesProvider = require('../providers/AviasalesProvider');
 const ERROR_MESSAGE = 'Что то пошло не так, попробуйте еще раз';
-
-function askQuestion(message, bot, field, askMessage) {
-  return new Promise((resolve, reject) => {
-    bot.sendMessage(message.from.id, askMessage, {
-      reply_markup: JSON.stringify(
-        {
-          force_reply: true
-        }
-      )}).then((sended) => {
-        bot.onReplyToMessage(sended.chat.id, sended.message_id, (replyMessage) => {
-          if(replyMessage.text.trim() == '') {
-            reject();
-            return;
-          }
-          resolve({text: replyMessage.text, field: field});
-        });
-      }).catch(() => {
-        reject();
-      });
-  });
-}
 
 function flyHandler(message, bot) {
   const flyParams = parseFlyQuery(message.text);
@@ -33,8 +13,8 @@ function flyHandler(message, bot) {
     destination: IATA.findCode(flyParams.destination, 'vi'),
   };
 
-  if (!queryParams.origin) questions.push(askQuestion.bind(this, message, bot, 'origin', 'Откуда летим'));
-  if (!queryParams.destination) questions.push(askQuestion.bind(this, message, bot, 'destination', 'Куда летим'));
+  if (!queryParams.origin) questions.push(botAskQuestion.bind(this, message, bot, 'origin', 'Откуда летим'));
+  if (!queryParams.destination) questions.push(botAskQuestion.bind(this, message, bot, 'destination', 'Куда летим'));
 
   bluebird.map(questions, (questionFn) => {
     return questionFn();
@@ -57,7 +37,6 @@ function flyHandler(message, bot) {
 Вылет из ${IATA.findCity(res.data.data[0].origin, 'ro')} ${IATA.findCity(res.data.data[0].destination, 'vi')} 
 Стоимость: ${res.data.data[0].value} рублей
 Дата вылета: ${res.data.data[0].depart_date}
-Дата прилета: ${res.data.data[0].return_date}
 `
       );
     });

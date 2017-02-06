@@ -1,6 +1,6 @@
 const chai = require('chai');
-const assert = chai.assert;
 const IATA = require('../../../src/lib/utils/IATA');
+const assert = chai.assert;
 
 describe('Utils', () => {
   describe('IATA', () => {

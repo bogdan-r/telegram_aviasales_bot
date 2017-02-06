@@ -14,12 +14,12 @@
   "author": "Bogdan Rudenko",
   "license": "ISC",
   "dependencies": {
-    "async": "^2.1.2",
     "axios": "^0.14.0",
     "bluebird": "^3.4.6",
     "chai": "^3.5.0",
     "lodash": "^4.16.4",
-    "node-telegram-bot-api": "^0.23.3"
+    "node-telegram-bot-api": "^0.23.3",
+    "sinon": "^1.17.6"
   },
   "devDependencies": {
     "eslint": "^3.8.0",
