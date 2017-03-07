@@ -1,6 +1,4 @@
-const chai = require('chai');
 const IATA = require('../../../src/lib/utils/IATA');
-const assert = chai.assert;
 
 describe('Utils', () => {
   describe('IATA', () => {
@@ -10,9 +8,9 @@ describe('Utils', () => {
         const IATALowCase = IATA.findCode('санкт-петербург');
         const IATASeparateBySpace = IATA.findCode('Санкт Петербург');
 
-        assert.equal(defaultIATA, 'LED');
-        assert.equal(IATALowCase, 'LED');
-        assert.equal(IATASeparateBySpace, 'LED');
+        expect(defaultIATA).toBe('LED');
+        expect(IATALowCase).toBe('LED');
+        expect(IATASeparateBySpace).toBe('LED');
       });
 
       it('should find code with cases', () => {
@@ -23,26 +21,26 @@ describe('Utils', () => {
           tv: IATA.findCode('Санкт-Петербургом', 'tv'),
           pr: IATA.findCode('Санкт-Петербурге', 'pr'),
         };
-
-        assert.deepEqual({
+        
+        expect(IDATACases).toEqual({
           ro: 'LED',
           da: 'LED',
           vi: 'LED',
           tv: 'LED',
           pr: 'LED',
-        }, IDATACases);
+        });
       });
 
       it('should find code with wrong cases', () => {
         const IATAEmptyCase = IATA.findCode('Санкт-Петербург', '');
         const IATAWrongCase = IATA.findCode('Санкт-Петербург', 'wrong case');
 
-        assert.equal(IATAEmptyCase, 'LED');
-        assert.equal(IATAWrongCase, 'LED');
+        expect(IATAEmptyCase).toBe('LED');
+        expect(IATAWrongCase).toBe('LED');
       });
 
       it('should return undefined with null param', () => {
-        assert.equal(IATA.findCode(null), undefined);
+        expect(IATA.findCode(null)).toBeUndefined();
       });
     });
 
@@ -50,7 +48,7 @@ describe('Utils', () => {
       it('should find city without cases', () => {
         const city = IATA.findCity('LED');
 
-        assert.equal('Санкт-Петербург', city);
+        expect(city).toBe('Санкт-Петербург');
       });
 
       it('should find city with cases', () => {
@@ -62,25 +60,25 @@ describe('Utils', () => {
           pr: IATA.findCity('LED', 'pr'),
         };
 
-        assert.deepEqual({
+        expect(cityCases).toEqual({
           ro: 'Санкт-Петербурга',
           da: 'Санкт-Петербургу',
           vi: 'в Санкт-Петербург',
           tv: 'Санкт-Петербургом',
           pr: 'Санкт-Петербурге',
-        }, cityCases);
+        });
       });
 
       it('should return undefined with null param', () => {
-        assert.equal(IATA.findCity(null), undefined);
+        expect(IATA.findCity(null)).toBeUndefined();
       });
 
       it('should find city with wrong cases', () => {
         const cityWithEmptyCase = IATA.findCity('LED', '');
         const cityWithWrongCase = IATA.findCity('LED', 'wrong case');
 
-        assert.equal(cityWithEmptyCase, 'Санкт-Петербург');
-        assert.equal(cityWithWrongCase, 'Санкт-Петербург');
+        expect(cityWithEmptyCase).toBe('Санкт-Петербург');
+        expect(cityWithWrongCase).toBe('Санкт-Петербург');
       });
     });
   });

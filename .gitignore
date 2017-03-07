@@ -1,6 +1,7 @@
 /node_modules
 start.sh
 /typings
+/jest
 .vscode
 .idea
 avia_search_bot.iml
