@@ -5,6 +5,10 @@ const botAskQuestion = require('../lib/utils/botAskQuestion');
 const AviasalesProvider = require('../providers/AviasalesProvider');
 const ERROR_MESSAGE = 'Что то пошло не так, попробуйте еще раз';
 
+function getMassage({origin, destination, value, depart_date}) {
+  return ``
+}
+
 function flyHandler(message, bot) {
   const flyParams = parseFlyQuery(message.text);
   const questions = [];
@@ -20,16 +24,16 @@ function flyHandler(message, bot) {
     return questionFn();
   }, { concurrency: 1 }).then((answers) => {
     if(answers.length) {
-      for(let i = 0; i < answers.length; i++) {
-        let text = answers[i].text;
-        let field = answers[i].field;
-        if(text == '') {
-          throw new Error();
+      answers.forEach((answer) => {
+        let text = answer.text;
+        let field = answer.field;
+        if (text === '') {
+          throw new Error('Текст запроса пустой');
         } else {
           queryParams[field] = IATA.findCode(text);
           if (!queryParams[field]) throw new Error();
         }
-      }
+      });
     }
     AviasalesProvider.pricesLatest(queryParams).then((res) => {
       bot.sendMessage(message.from.id,
