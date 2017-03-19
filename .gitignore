@@ -2,6 +2,7 @@
 start.sh
 /typings
 /jest
+/coverage
 .vscode
 .idea
 avia_search_bot.iml
