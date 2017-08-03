@@ -1,4 +1,4 @@
-function askQuestion(message, bot, field, askMessage) {
+function askQuestion(message, bot, askMessage) {
   return new Promise((resolve, reject) => {
     bot.sendMessage(message.from.id, askMessage, {
       reply_markup: JSON.stringify(
@@ -11,7 +11,7 @@ function askQuestion(message, bot, field, askMessage) {
             reject();
             return;
           }
-          resolve({text: replyMessage.text, field: field});
+          resolve({ text: replyMessage.text });
         });
       }).catch(() => {
         reject();

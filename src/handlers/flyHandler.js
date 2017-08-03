@@ -17,10 +17,16 @@ function getMessage({origin, destination, value, depart_date}) {
   `;
 };
 
+async function answer(message, bot, question) {
+  const answerFromBot = await botAskQuestion(message, bot, question); 
+  return answerFromBot;
+}
+
 async function collectAnswersFromQuestions(questions, bot) {
   const answers = [];
   for (let {message, field, question} of questions) {
-    answers.push(await botAskQuestion(message, bot, field, question));
+    const resultAnswer = await answer(message, bot, question);
+    answers.push(Promise.resolve({ resultAnswer, field }));
   }
   return answers;
 }
@@ -43,9 +49,9 @@ async function flyHandler(message, bot) {
   try {
     const answers = await collectAnswersFromQuestions(questions, bot);
     const queryParams = answers.reduce((acc, answer) => {
-      const { text, field } = answer;
-      if (text === '') throw new Error('Текст запроса пустой');
-      const IATACode = IATA.findCode(text);
+      const { resultAnswer, field } = answer;
+      if (resultAnswer.text === '') throw new Error('Текст запроса пустой');
+      const IATACode = IATA.findCode(resultAnswer.text);
       if (!IATACode) throw new Error();
       acc[field] = IATACode;
       return acc;
